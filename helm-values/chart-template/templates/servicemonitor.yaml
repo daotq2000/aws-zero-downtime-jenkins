@@ -1,5 +1,5 @@
 {{- if and .Values.metrics.enabled .Values.metrics.serviceMonitor.enabled }}
-apiVersion: monitoring.coreos.com/v1
+apiVersion: monitoring.coreos.com/v1alpha1
 kind: ServiceMonitor
 metadata:
   name: {{ include "ciaws.fullname" . }}
