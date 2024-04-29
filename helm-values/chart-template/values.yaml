@@ -157,7 +157,7 @@ persistence:
   ##   GKE, AWS & OpenStack)
   ##
   # storageClass: "-"
-  size: 10Gi
+  size: 1Gi
   annotations:
     "helm.sh/hook": pre-install,post-delete
     "helm.sh/hook-weight": "0"
@@ -185,23 +185,23 @@ metrics:
   ## ref: https://github.com/coreos/prometheus-operator
   ##      https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md
   ##
-  # serviceMonitor: Disable
+  serviceMonitor: 
     ## If the operator is installed in your cluster, set to true to create a Service Monitor Entry
     ##
-    # enabled: false Disable
+    enabled: false 
 
     ## Specify the namespace where Prometheus Operator is running
     ##
-    #namespace: monitoring
+    namespace: monitoring
 
-    # path: /actuator/prometheus Disable
+    path: /actuator/prometheus 
     ## Specify the interval at which metrics should be scraped
     ##
-    # interval: 30sDisable
+    interval: 30s
     ## Specify the timeout after which the scrape is ended
     ##
     # scrapeTimeout: 30s
     ## Used to pass Labels that are used by the Prometheus installed in your cluster to select Service Monitors to work with
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
     ##
-    # additionalLabels: {}Disable
+    additionalLabels: {}
