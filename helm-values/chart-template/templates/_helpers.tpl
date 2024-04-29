@@ -61,6 +61,35 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+
+{{/* Allow KubeVersion to be overridden. */}}
+{{- define "ciaws.kubeVersion" -}}
+  {{- default .Capabilities.KubeVersion.Version .Values.kubeVersionOverride -}}
+{{- end -}}
+
+{{/* Get Ingress API Version */}}
+{{- define "ciaws.ingress.apiVersion" -}}
+  {{- if and (.Capabilities.APIVersions.Has "networking.k8s.io/v1") (semverCompare ">= 1.19-0" (include "ciaws.kubeVersion" .)) -}}
+      {{- print "networking.k8s.io/v1" -}}
+  {{- else if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" -}}
+    {{- print "networking.k8s.io/v1beta1" -}}
+  {{- else -}}
+    {{- print "extensions/v1beta1" -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Check Ingress stability */}}
+{{- define "ciaws.ingress.isStable" -}}
+  {{- eq (include "ciaws.ingress.apiVersion" .) "networking.k8s.io/v1" -}}
+{{- end -}}
+
+{{/* Check Ingress supports pathType */}}
+{{/* pathType was added to networking.k8s.io/v1beta1 in Kubernetes 1.18 */}}
+{{- define "ciaws.ingress.supportsPathType" -}}
+  {{- or (eq (include "ciaws.ingress.isStable" .) "true") (and (eq (include "ciaws.ingress.apiVersion" .) "networking.k8s.io/v1beta1") (semverCompare ">= 1.18-0" (include "ciaws.kubeVersion" .))) -}}
+{{- end -}}
+
+
 {{- define "ciaws.namespace" -}}
     {{- if .Values.global -}}
         {{- if .Values.global.namespaceOverride }}

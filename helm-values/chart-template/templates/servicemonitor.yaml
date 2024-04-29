@@ -21,5 +21,4 @@ spec:
       - "{{ include "ciaws.namespace" . }}"
   selector:
     matchLabels: {{- include "ciaws.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/component: {{ include "ciaws.name" . }}
 {{- end }}
