@@ -25,9 +25,10 @@
     
   </properties>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2660.vb_c0412dc4e6d">
-    <script>def isJava = true;  
+    <script>
+   def isJava = true;  
 // git repo
-def gitUrl = ''
+def gitUrl = 'git@github.com:daotq2000/aws-spring-sqs-queue.git'
 def gitBranch = 'main'
 // project
 def projectGroup = 'aws'
@@ -49,17 +50,17 @@ pipeline {
     tools {
         jdk 'jdk11'
         }
-    environment {
-        DOCKER_REGISTRY = 'https://registry-oceanpark.vsmart.net'
-        DOCKER_IMAGE_NAME = "cipms-377617/${projectGroup}/${projectName}"
-        DOCKER_IMAGE = "registry-oceanpark.vsmart.net/${DOCKER_IMAGE_NAME}"
+      environment {
+        DOCKER_REGISTRY = 'https://846338211683.dkr.ecr.us-east-1.amazonaws.com'
+        DOCKER_IMAGE_NAME = "eks-project:${version}"
+        DOCKER_IMAGE = "846338211683.dkr.ecr.us-east-1.amazonaws.com/${DOCKER_IMAGE_NAME}"
     }
     stages {
-        stage('Update helm  value') {
-          steps {
-            build job: "AWS/AWS-DEV/helm-values", wait: true
-          }
-        }
+        // stage('Update helm  value') {
+        //   steps {
+        //     build job: "AWS/AWS-DEV/helm-values", wait: true
+        //   }
+        // }
         stage('Checkout project') {
           steps {
             git branch: gitBranch,
@@ -73,10 +74,10 @@ pipeline {
                     sh "git reset --hard"
                     sh "git clean -f"
                     sh "${mavenBuild}"
-                    app = docker.build(DOCKER_IMAGE_NAME, dockerBuildCommand)
-                    docker.withRegistry( DOCKER_REGISTRY) {
-                       app.push(version)
-                    }
+                    sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 846338211683.dkr.ecr.us-east-1.amazonaws.com"
+                    sh "docker build -t ${DOCKER_IMAGE_NAME} ./"
+                    sh "docker tag ${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE}"
+                    sh "docker push ${DOCKER_IMAGE}"
                     sh "docker rmi ${DOCKER_IMAGE_NAME} -f"
                     sh "docker rmi ${DOCKER_IMAGE}:${version} -f"
                 }
@@ -90,7 +91,9 @@ pipeline {
             }
         }
     }
-}</script>
+} 
+    
+    </script>
     <sandbox>true</sandbox>
   </definition>
   <triggers/>
