@@ -1,0 +1,55 @@
+{{- if and .Values.migrateDB.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "cipms.fullname" . }}-db-migration
+  labels:
+    {{- include "cipms.labels" . | nindent 4 }}
+spec:
+  template:
+    metadata:
+      {{- with .Values.migrateDB.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "cipms.selectorLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "cipms.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-db-migration
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: {{- toYaml .Values.migrateDB.command | nindent 10 }}
+          args: {{- toYaml .Values.migrateDB.args | nindent 10 }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.extraEnvVars }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if and .Values.envSecrets }}
+          envFrom:
+            - secretRef:
+                name: {{ include "cipms.fullname" . }}-env
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

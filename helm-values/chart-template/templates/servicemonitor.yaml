@@ -1,0 +1,25 @@
+{{- if and .Values.metrics.enabled .Values.metrics.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "cipms.fullname" . }}
+  namespace: {{ include "cipms.serviceMonitor.namespace" . }}
+  labels:
+    {{- include "cipms.labels" . | nindent 4 }}
+spec:
+  endpoints:
+    - port: http
+      path: {{ .Values.metrics.serviceMonitor.path }}
+      {{- if .Values.metrics.serviceMonitor.interval }}
+      interval: {{ .Values.metrics.serviceMonitor.interval }}
+      {{- end }}
+      {{- if .Values.metrics.serviceMonitor.scrapeTimeout }}
+      scrapeTimeout: {{ .Values.metrics.serviceMonitor.scrapeTimeout }}
+      {{- end }}
+  namespaceSelector:
+    matchNames:
+      - "{{ include "cipms.namespace" . }}"
+  selector:
+    matchLabels: {{- include "cipms.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: {{ include "cipms.name" . }}
+{{- end }}
