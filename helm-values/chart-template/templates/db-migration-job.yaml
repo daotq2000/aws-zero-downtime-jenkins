@@ -2,9 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "cipms.fullname" . }}-db-migration
+  name: {{ include "ciaws.fullname" . }}-db-migration
   labels:
-    {{- include "cipms.labels" . | nindent 4 }}
+    {{- include "ciaws.labels" . | nindent 4 }}
 spec:
   template:
     metadata:
@@ -13,14 +13,14 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "cipms.selectorLabels" . | nindent 8 }}
+        {{- include "ciaws.selectorLabels" . | nindent 8 }}
     spec:
       restartPolicy: Never
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "cipms.serviceAccountName" . }}
+      serviceAccountName: {{ include "ciaws.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -38,7 +38,7 @@ spec:
           {{- if and .Values.envSecrets }}
           envFrom:
             - secretRef:
-                name: {{ include "cipms.fullname" . }}-env
+                name: {{ include "ciaws.fullname" . }}-env
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

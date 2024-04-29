@@ -33,7 +33,7 @@ def gitBranch = 'main'
 // project
 def projectGroup = 'aws'
 def projectName = "aws-zero-downtime"
-def namespace = "aws-dev"
+def namespace = "ciaws"
 def helmValues = "project-values/aws-zero-down-time/values-dev.yaml"
 /// DO NOT CHANGE BELOW
 // key login

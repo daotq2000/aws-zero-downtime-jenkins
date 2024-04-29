@@ -1,10 +1,10 @@
 ## Install
 ```
-helm install -f values.yaml --set fullnameOverride=t4 t4 ./cipms/
+helm install -f values.yaml --set fullnameOverride=t4 t4 ./ciaws/
 ```
 ## Upgrade
 ```
-helm upgrade t4 ./cipms/ --atomic --cleanup-on-fail --set fullnameOverride=t4,replicaCount=3,repository=tuanldt
+helm upgrade t4 ./ciaws/ --atomic --cleanup-on-fail --set fullnameOverride=t4,replicaCount=3,repository=tuanldt
 ```
 
 ## Rollback

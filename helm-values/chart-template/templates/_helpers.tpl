@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "cipms.name" -}}
+{{- define "ciaws.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "cipms.fullname" -}}
+{{- define "ciaws.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "cipms.chart" -}}
+{{- define "ciaws.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "cipms.labels" -}}
-helm.sh/chart: {{ include "cipms.chart" . }}
-{{ include "cipms.selectorLabels" . }}
+{{- define "ciaws.labels" -}}
+helm.sh/chart: {{ include "ciaws.chart" . }}
+{{ include "ciaws.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,23 +45,23 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "cipms.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "cipms.name" . }}
+{{- define "ciaws.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ciaws.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "cipms.serviceAccountName" -}}
+{{- define "ciaws.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "cipms.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "ciaws.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
-{{- define "cipms.namespace" -}}
+{{- define "ciaws.namespace" -}}
     {{- if .Values.global -}}
         {{- if .Values.global.namespaceOverride }}
             {{- .Values.global.namespaceOverride -}}
@@ -72,10 +72,10 @@ Create the name of the service account to use
         {{- .Release.Namespace -}}
     {{- end }}
 {{- end -}}
-{{- define "cipms.serviceMonitor.namespace" -}}
+{{- define "ciaws.serviceMonitor.namespace" -}}
     {{- if .Values.metrics.serviceMonitor.namespace -}}
         {{- .Values.metrics.serviceMonitor.namespace -}}
     {{- else -}}
-        {{- include "cipms.namespace" . -}}
+        {{- include "ciaws.namespace" . -}}
     {{- end }}
 {{- end -}}

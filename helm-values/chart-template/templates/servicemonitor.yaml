@@ -2,10 +2,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "cipms.fullname" . }}
-  namespace: {{ include "cipms.serviceMonitor.namespace" . }}
+  name: {{ include "ciaws.fullname" . }}
+  namespace: {{ include "ciaws.serviceMonitor.namespace" . }}
   labels:
-    {{- include "cipms.labels" . | nindent 4 }}
+    {{- include "ciaws.labels" . | nindent 4 }}
 spec:
   endpoints:
     - port: http
@@ -18,8 +18,8 @@ spec:
       {{- end }}
   namespaceSelector:
     matchNames:
-      - "{{ include "cipms.namespace" . }}"
+      - "{{ include "ciaws.namespace" . }}"
   selector:
-    matchLabels: {{- include "cipms.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/component: {{ include "cipms.name" . }}
+    matchLabels: {{- include "ciaws.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: {{ include "ciaws.name" . }}
 {{- end }}
