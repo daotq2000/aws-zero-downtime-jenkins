@@ -54,7 +54,7 @@ ingress:
   enabled: true
   annotations: {}
   hosts:
-    - host: dev-pms.vinhomes.com
+    - host: learning.aws.com
       paths:
         - path: /api/aws-zero-downtime/v0
           pathType: Prefix
