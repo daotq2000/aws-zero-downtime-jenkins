@@ -34,11 +34,11 @@ def gitBranch = 'main'
 def projectGroup = 'aws'
 def projectName = "aws-zero-downtime"
 def namespace = "aws-dev"
-def helmValues = "/helm-values/project-values/aws-zero-down-time/values-dev.yaml"
+def helmValues = "project-values/aws-zero-down-time/values-dev.yaml"
 /// DO NOT CHANGE BELOW
 // key login
 def gitCredential = 'jenkins-git'
-def deployDirectory = '/var/lib/jenkins/workspace/AWS/AWS-DEV/helm-values'
+def deployDirectory = '/var/lib/jenkins/workspace/AWS/AWS-DEV/helm-values/helm-values'
 def mavenBuild = 'echo 1'
 dockerBuildCommand = './'
 def version = 'dev-0.0.${BUILD_NUMBER}'
@@ -52,7 +52,7 @@ pipeline {
         }
       environment {
         DOCKER_REGISTRY = 'https://846338211683.dkr.ecr.us-east-1.amazonaws.com'
-        DOCKER_IMAGE_NAME = "eks-project:${version}"
+        DOCKER_IMAGE_NAME = "eks-project"
         DOCKER_IMAGE = "846338211683.dkr.ecr.us-east-1.amazonaws.com/${DOCKER_IMAGE_NAME}"
     }
     stages {
@@ -75,9 +75,9 @@ pipeline {
                     sh "git clean -f"
                     sh "${mavenBuild}"
                     sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 846338211683.dkr.ecr.us-east-1.amazonaws.com"
-                    sh "docker build -t ${DOCKER_IMAGE_NAME} ./"
-                    sh "docker tag ${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE}"
-                    sh "docker push ${DOCKER_IMAGE}"
+                    sh "docker build -t ${DOCKER_IMAGE_NAME}:${version} ./"
+                    sh "docker tag ${DOCKER_IMAGE_NAME}:${version} ${DOCKER_IMAGE}:${version}"
+                    sh "docker push ${DOCKER_IMAGE}:${version}"
                     sh "docker rmi ${DOCKER_IMAGE_NAME} -f"
                     sh "docker rmi ${DOCKER_IMAGE}:${version} -f"
                 }
