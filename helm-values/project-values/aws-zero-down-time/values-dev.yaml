@@ -15,9 +15,9 @@ envSecrets:
   MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,prometheus"
   MANAGEMENT_METRICS_TAGS_APPLICATION: "aws-zero-downtime"
   ### End Springboot Properties ###
-  POSTGRES_DB_URL: "jdbc:postgresql://aurora-postgresql-cluster.cluster-cfoke28w2qup.us-east-1.rds.amazonaws.com/SpringbootEcommerceDb"
-  POSTGRES_DB_USERNAME: "postgres"
-  POSTGRES_DB_PASSWORD: "123456"
+  POSTGRES_DB_URL: "jdbc:postgresql://aurora-postgresql-cluster.cluster-cfoke28w2qup.us-east-1.rds.amazonaws.com/test"
+  POSTGRES_DB_USERNAME: "test"
+  POSTGRES_DB_PASSWORD: "sadalkdakl232"
   AWS_REGION: "us-east-1"
   AWS_ACCESS_KEY: "AKIA4KDNQH5R44ATPYUW" 
   AWS_SECRET_KEY: "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"
