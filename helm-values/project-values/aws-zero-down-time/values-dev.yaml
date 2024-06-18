@@ -45,6 +45,7 @@ envSecrets:
 
 hostAliases:
 
+
 service:
   enabled: true
   type: ClusterIP
@@ -60,7 +61,7 @@ ingress:
   enabled: true
   annotations: {}
   hosts:
-    - host: learning.aws.com
+    - host: learningaws.com
       paths:
         - path: /api/aws-zero-downtime/v0
           pathType: Prefix
