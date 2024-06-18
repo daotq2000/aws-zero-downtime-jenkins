@@ -69,7 +69,7 @@ resources:
 ingress:
   enabled: true
   hosts:
-    - host: d3thkkrjaegab5.cloudfront.net
+    - host: awsdaotq.net
       paths:
         - path: /api/aws-zero-downtime/v0
           pathType: Prefix
