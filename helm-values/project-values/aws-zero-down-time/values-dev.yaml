@@ -61,7 +61,7 @@ ingress:
   enabled: true
   annotations: {}
   hosts:
-    - host: learningaws.com
+    - host: d3thkkrjaegab5.cloudfront.net
       paths:
         - path: /api/aws-zero-downtime/v0
           pathType: Prefix
