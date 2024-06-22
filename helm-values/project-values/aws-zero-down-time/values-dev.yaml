@@ -77,14 +77,14 @@ ingress:
           pathType: Prefix
 livenessProbe:
   httpGet:
-    path: /aws-zero-downtime/api/v0/actuator/health/liveness
+    path: /api/v0/actuator/health/liveness
     port: 80
   initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 5
 readinessProbe:
   httpGet:
-    path: /aws-zero-downtime/api/v0/actuator/health/readiness
+    path: /api/v0/actuator/health/readiness
     port: 80
   initialDelaySeconds: 60
   periodSeconds: 10
