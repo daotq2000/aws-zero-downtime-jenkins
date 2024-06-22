@@ -31,7 +31,7 @@ envSecrets:
   SERVER_PORT: "80"
   SERVICE_NAME: "aws-zero-downtime"
   VERSION: "0.0.1"
-  SERVICE_PATH: "/api/aws-zero-downtime/v0"
+  SERVICE_PATH: "/api/v0"
   ENABLE_SWAGGER: "true"
   QUARTZ_SCHEDULE: never
   LOGGING_LEVEL_ROOT: INFO
@@ -69,22 +69,22 @@ resources:
 ingress:
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: local
+    kubernetes.io/ingress.class: public
   hosts:
-    - host: awsdaotq.net
+    - host: eks.bootcamp.net
       paths:
-        - path: /api/aws-zero-downtime/v0
+        - path: /app
           pathType: Prefix
 livenessProbe:
   httpGet:
-    path: /api/aws-zero-downtime/v0/actuator/health/liveness
+    path: /app/aws-zero-downtime/api/v0/actuator/health/liveness
     port: 80
   initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 5
 readinessProbe:
   httpGet:
-    path: /api/aws-zero-downtime/v0/actuator/health/readiness
+    path: /app/aws-zero-downtime/api/v0/v0/actuator/health/readiness
     port: 80
   initialDelaySeconds: 60
   periodSeconds: 10
