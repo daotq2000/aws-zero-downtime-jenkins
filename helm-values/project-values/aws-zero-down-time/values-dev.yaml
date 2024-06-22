@@ -73,7 +73,7 @@ ingress:
   hosts:
     - host: eks.bootcamp.net
       paths:
-        - path: /app
+        - path: /
           pathType: Prefix
 livenessProbe:
   httpGet:
